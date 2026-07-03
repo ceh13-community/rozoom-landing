@@ -282,6 +282,22 @@
 
     .hero-sub-cta a:hover { text-decoration: underline; }
 
+    .hero-shot {
+      margin: 64px auto 0;
+      max-width: 960px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-hover);
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(4,12,26,0.7), 0 0 0 1px rgba(93,170,246,0.08);
+      background: var(--bg-elevated);
+    }
+
+    .hero-shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
     /* ---- HOW IT WORKS ------------------------------------------ */
     #how {
       padding: 96px 0;
@@ -716,8 +732,8 @@
   <div class="hero-glow" aria-hidden="true"></div>
   <div class="container">
     <div class="hero-accent" aria-label="Status">
-      <span class="en">Building in public · pre-launch</span>
-      <span class="uk">Будуємо публічно · pre-launch</span>
+      <span class="en">Open beta · v0.22</span>
+      <span class="uk">Відкрита бета · v0.22</span>
     </div>
 
     <h1 class="hero-h1">
@@ -726,12 +742,12 @@
     </h1>
 
     <p class="hero-sub">
-      <span class="en">Paste your cluster URL and a service account token. That's the entire setup.<br/>No OIDC config, no kubeconfig editing, no deployment wizard.</span>
-      <span class="uk">Вставте URL кластера і токен сервісного акаунту. Це весь налаштування.<br/>Без OIDC, без редагування kubeconfig, без майстра розгортання.</span>
+      <span class="en">Rozoom auto-detects your local clusters — or paste a URL + token for anything remote.<br/>No OIDC config, no kubeconfig editing, no deployment wizard.</span>
+      <span class="uk">Rozoom автоматично визначає ваші локальні кластери — або вставте URL + токен для будь-якого віддаленого.<br/>Без OIDC, без редагування kubeconfig, без майстра розгортання.</span>
     </p>
 
     <div class="hero-ctas">
-      <a href="https://github.com/ceh13-community/rozoom" class="btn-primary" target="_blank" rel="noopener noreferrer">
+      <a href="https://github.com/ceh13-community/rozoom/releases/latest" class="btn-primary" target="_blank" rel="noopener noreferrer">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
         <span class="en">Try Rozoom — it's free</span>
         <span class="uk">Спробуйте Rozoom — безкоштовно</span>
@@ -741,6 +757,12 @@
         <span class="uk">Відкритий код · Apache 2.0 · <a href="https://github.com/ceh13-community/rozoom" target="_blank" rel="noopener noreferrer">GitHub →</a></span>
       </p>
     </div>
+
+    <figure class="hero-shot">
+      <img src="hero-product.webp" width="1440" height="752"
+           alt="Rozoom fleet view — auto-detected local minikube alongside remote EKS clusters, each showing health, capacity, and security at a glance"
+           loading="lazy" decoding="async"/>
+    </figure>
   </div>
 </section>
 
@@ -892,12 +914,12 @@
       <span class="uk">Як ми порівнюємось</span>
     </p>
     <h2 class="section-h2" id="compare-heading">
-      <span class="en">Time to first cluster.</span>
-      <span class="uk">Час до першого кластера.</span>
+      <span class="en">What it takes to start.</span>
+      <span class="uk">Що потрібно, щоб почати.</span>
     </h2>
     <p class="section-sub">
-      <span class="en">Every tool below works. Rozoom is the one that starts in seconds.</span>
-      <span class="uk">Кожен інструмент нижче працює. Rozoom — той, що стартує за секунди.</span>
+      <span class="en">Every tool below works. Rozoom is the one with nothing to install or configure.</span>
+      <span class="uk">Кожен інструмент нижче працює. Rozoom — той, якому нічого встановлювати чи налаштовувати.</span>
     </p>
 
     <div class="table-wrap" role="region" aria-label="Comparison table">
@@ -909,79 +931,46 @@
               <span class="uk">Інструмент</span>
             </th>
             <th scope="col">
-              <span class="en">Time to first cluster</span>
-              <span class="uk">Час до першого кластера</span>
-            </th>
-            <th scope="col">
               <span class="en">Setup required</span>
               <span class="uk">Що потрібно налаштувати</span>
-            </th>
-            <th scope="col">
-              <span class="en">Open source</span>
-              <span class="uk">Відкритий код</span>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr class="rozoom-row">
             <td><strong>Rozoom</strong></td>
-            <td><span class="badge-highlight">~30 seconds</span></td>
             <td>
-              <span class="en">URL + service account token</span>
-              <span class="uk">URL + токен сервісного акаунту</span>
+              <span class="en">Auto-detects local, or URL&nbsp;+&nbsp;token remote · no kubeconfig editing · client-side, zero cluster-install · Apache&nbsp;2.0</span>
+              <span class="uk">Автовизначення локальних, або URL&nbsp;+&nbsp;токен для віддалених · без редагування kubeconfig · client-side, нуль cluster-install · Apache&nbsp;2.0</span>
             </td>
-            <td><span class="badge-yes">✓ Apache 2.0</span></td>
           </tr>
           <tr>
             <td>Lens</td>
             <td>
-              <span class="en">5–15 min</span>
-              <span class="uk">5–15 хв</span>
+              <span class="en">kubeconfig + context configuration · open source (core)</span>
+              <span class="uk">kubeconfig + налаштування контексту · відкритий код (core)</span>
             </td>
-            <td>
-              <span class="en">kubeconfig + context configuration</span>
-              <span class="uk">kubeconfig + налаштування контексту</span>
-            </td>
-            <td><span class="badge-yes">✓ <span class="en">(core)</span><span class="uk">(core)</span></span></td>
           </tr>
           <tr>
             <td>k9s</td>
             <td>
-              <span class="en">5–10 min</span>
-              <span class="uk">5–10 хв</span>
+              <span class="en">terminal access + kubeconfig · open source (Apache 2.0)</span>
+              <span class="uk">доступ до термінала + kubeconfig · відкритий код (Apache 2.0)</span>
             </td>
-            <td>
-              <span class="en">terminal access + kubeconfig</span>
-              <span class="uk">доступ до термінала + kubeconfig</span>
-            </td>
-            <td><span class="badge-yes">✓</span></td>
           </tr>
           <tr>
             <td>Headlamp</td>
             <td>
-              <span class="en">10–30 min</span>
-              <span class="uk">10–30 хв</span>
+              <span class="en">choose 1 of 5 deployment paths · Apache 2.0</span>
+              <span class="uk">вибір з 5 способів розгортання · Apache 2.0</span>
             </td>
-            <td>
-              <span class="en">choose 1 of 5 deployment paths</span>
-              <span class="uk">вибір з 5 способів розгортання</span>
-            </td>
-            <td><span class="badge-yes">✓ Apache 2.0</span></td>
           </tr>
           <tr>
             <td>Rancher</td>
             <td>
-              <span class="en">hours</span>
-              <span class="uk">години</span>
+              <span class="en">Helm install + infrastructure setup · Enterprise tier</span>
+              <span class="uk">Helm install + налаштування інфраструктури · Enterprise-рівень</span>
             </td>
-            <td>
-              <span class="en">Helm install + infrastructure setup</span>
-              <span class="uk">Helm install + налаштування інфраструктури</span>
-            </td>
-            <td><span class="badge-no">
-              <span class="en">✗ Enterprise</span>
-              <span class="uk">✗ Enterprise</span>
-            </span></td>
           </tr>
         </tbody>
       </table>
