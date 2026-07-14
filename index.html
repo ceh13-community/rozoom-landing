@@ -298,10 +298,91 @@
       height: auto;
     }
 
+    /* ---- PROBLEM ------------------------------------------------ */
+    #problem {
+      padding: 96px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .pain-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color 0.2s;
+    }
+
+    .pain-card:hover { border-color: var(--border-hover); }
+
+    .pain-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .pain-card p {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.55;
+    }
+
+    /* ---- WHY (philosophy) --------------------------------------- */
+    #why {
+      padding: 96px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .statement-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+
+    .statement {
+      border-left: 2px solid var(--primary);
+      padding: 4px 0 4px 24px;
+    }
+
+    .statement h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .statement p {
+      font-size: 15px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
     /* ---- HOW IT WORKS ------------------------------------------ */
     #how {
       padding: 96px 0;
       border-top: 1px solid var(--border);
+    }
+
+    .how-shot {
+      margin: 56px auto 0;
+      max-width: 960px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-hover);
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(4,12,26,0.7), 0 0 0 1px rgba(93,170,246,0.08);
+      background: var(--bg-elevated);
+    }
+
+    .how-shot img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     .section-label {
@@ -654,6 +735,8 @@
       #hero { padding: 72px 0 64px; }
       .steps { grid-template-columns: 1fr; }
       .benefits-grid { grid-template-columns: 1fr; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .statement-grid { grid-template-columns: 1fr; gap: 28px; }
       .cta-box { padding: 48px 24px; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
       .nav-gh .gh-label { display: none; }
@@ -661,7 +744,7 @@
 
     @media (max-width: 480px) {
       #hero { padding: 56px 0 48px; }
-      #how, #benefits, #compare, #cta { padding: 64px 0; }
+      #problem, #why, #how, #benefits, #compare, #cta { padding: 64px 0; }
       .hero-ctas { gap: 12px; }
       .btn-primary { padding: 12px 24px; font-size: 15px; }
     }
@@ -766,12 +849,100 @@
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<!-- PROBLEM -->
+<section id="problem" aria-labelledby="problem-heading">
+  <div class="container">
+    <p class="section-label">
+      <span class="en">The problem</span>
+      <span class="uk">Проблема</span>
+    </p>
+    <h2 class="section-h2" id="problem-heading">
+      <span class="en">Both extremes cost you time.</span>
+      <span class="uk">Обидві крайності забирають ваш час.</span>
+    </h2>
+    <p class="section-sub">
+      <span class="en">Bare terminal or heavyweight platform — pick your pain.</span>
+      <span class="uk">Голий термінал або важка платформа — обирайте свій біль.</span>
+    </p>
+
+    <div class="pain-grid">
+      <!-- Camp A: bare kubectl/CLI -->
+      <div class="pain-card">
+        <h3>
+          <span class="en">Bare kubectl</span>
+          <span class="uk">Голий kubectl</span>
+        </h3>
+        <p>
+          <span class="en">Zero visibility past the last command. Every question means tabbing to docs, then back to the terminal — and back again.</span>
+          <span class="uk">Нуль видимості за межами останньої команди. Кожне питання — це перемикання в документацію, назад у термінал, і знову назад.</span>
+        </p>
+      </div>
+
+      <!-- Camp B: heavy dashboard platforms -->
+      <div class="pain-card">
+        <h3>
+          <span class="en">Heavyweight dashboards</span>
+          <span class="uk">Важкі dashboard-платформи</span>
+        </h3>
+        <p>
+          <span class="en">Weeks of onboarding before anyone's productive. A tutorial is mandatory. And once it's wired in, you're locked in.</span>
+          <span class="uk">Тижні онбордингу перш ніж хтось стає продуктивним. Туторіал — обов'язковий. А коли платформа вже вбудована — ви в vendor lock-in.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY (philosophy) -->
+<section id="why" aria-labelledby="why-heading">
+  <div class="container">
+    <p class="section-label">
+      <span class="en">Why</span>
+      <span class="uk">Чому</span>
+    </p>
+    <h2 class="section-h2" id="why-heading">
+      <span class="en">We removed layers. We didn't add one.</span>
+      <span class="uk">Ми прибрали шари. Не додали ще один.</span>
+    </h2>
+    <p class="section-sub">
+      <span class="en">Not a feature list — the reason Rozoom looks the way it does.</span>
+      <span class="uk">Це не список фіч — причина, чому Rozoom виглядає саме так.</span>
+    </p>
+
+    <div class="statement-grid">
+      <!-- Transparency -->
+      <div class="statement">
+        <h3>
+          <span class="en">Transparency</span>
+          <span class="uk">Прозорість</span>
+        </h3>
+        <p>
+          <span class="en">You see what's actually happening in the cluster — not a curated summary of it. No black box between you and the API server.</span>
+          <span class="uk">Ви бачите, що насправді відбувається в кластері, — не куровану вижимку з нього. Без чорної скриньки між вами і API-сервером.</span>
+        </p>
+      </div>
+
+      <!-- Remove > Add -->
+      <div class="statement">
+        <h3>
+          <span class="en">Remove, don't add</span>
+          <span class="uk">Прибирати, не додавати</span>
+        </h3>
+        <p>
+          <span class="en">Every other tool adds something: an agent on your cluster, an OIDC setup, a wizard. We removed those instead. Nothing runs on your cluster. Nothing to configure before you connect.</span>
+          <span class="uk">Кожен інший інструмент щось додає: агента на кластер, OIDC-налаштування, wizard. Ми ці речі прибрали. Нічого не запускається на вашому кластері. Нічого не треба налаштовувати перед підключенням.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU SEE (How it works) -->
 <section id="how" aria-labelledby="how-heading">
   <div class="container">
     <p class="section-label">
-      <span class="en">How it works</span>
-      <span class="uk">Як це працює</span>
+      <span class="en">What you see</span>
+      <span class="uk">Що ви бачите</span>
     </p>
     <h2 class="section-h2" id="how-heading">
       <span class="en">Three steps. No tutorial.</span>
@@ -819,6 +990,12 @@
         </p>
       </div>
     </div>
+
+    <figure class="how-shot">
+      <img src="cluster-overview.webp" width="1600" height="1000"
+           alt="Rozoom cluster overview — live health score, workload counts for pods, deployments and nodes, top risks and RBAC access, all on one screen"
+           loading="lazy" decoding="async"/>
+    </figure>
   </div>
 </section>
 
@@ -826,8 +1003,8 @@
 <section id="benefits" aria-labelledby="benefits-heading">
   <div class="container">
     <p class="section-label">
-      <span class="en">Why Rozoom</span>
-      <span class="uk">Чому Rozoom</span>
+      <span class="en">What you get</span>
+      <span class="uk">Що ви отримуєте</span>
     </p>
     <h2 class="section-h2" id="benefits-heading">
       <span class="en">Built for the first 30 seconds.</span>
