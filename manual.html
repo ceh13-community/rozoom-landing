@@ -326,18 +326,6 @@
 
     .note p { margin: 0; font-size: 15px; }
 
-    /* Draft placeholder styling — removed together with the stub text */
-    .stub {
-      border: 1px dashed var(--border-hover);
-      border-radius: var(--radius);
-      padding: 20px 24px;
-      margin: 10px 0 18px;
-      max-width: 760px;
-      color: var(--text-muted);
-      font-size: 15px;
-      font-style: italic;
-    }
-
     /* ---- BACK / FOOTER CTA -------------------------------------- */
     #manual-cta { padding: 72px 0 40px; }
 
@@ -521,12 +509,12 @@
       <span class="uk">Посібник користувача</span>
     </p>
     <h1 class="manual-h1">
-      <span class="en">Everything from <span class="hl">download</span> to your first cluster.</span>
-      <span class="uk">Усе від <span class="hl">завантаження</span> до першого кластера.</span>
+      <span class="en">ROZOOM <span class="hl">User Manual</span></span>
+      <span class="uk">Інструкція користувача <span class="hl">ROZOOM</span></span>
     </h1>
     <p class="manual-sub">
-      <span class="en">How to install Rozoom, connect a cluster, and work with fleet health, workloads, logs, and read-only mode.</span>
-      <span class="uk">Як встановити Rozoom, підключити кластер і працювати зі здоровʼям флоту, workload-ами, логами та режимом read-only.</span>
+      <span class="en">How to install ROZOOM, connect a cluster, and work with the built-in linter and telemetry settings.</span>
+      <span class="uk">Як встановити ROZOOM, підключити кластер і працювати з вбудованим лінтером та налаштуваннями телеметрії.</span>
     </p>
   </div>
 </section>
@@ -542,11 +530,8 @@
       <ul class="toc-list">
         <li><a href="#install"><span class="en">1. Install</span><span class="uk">1. Встановлення</span></a></li>
         <li><a href="#connect"><span class="en">2. Connect a cluster</span><span class="uk">2. Підключення кластера</span></a></li>
-        <li><a href="#fleet"><span class="en">3. Fleet overview</span><span class="uk">3. Огляд флоту</span></a></li>
-        <li><a href="#workloads"><span class="en">4. Workloads &amp; actions</span><span class="uk">4. Workload-и та дії</span></a></li>
-        <li><a href="#readonly"><span class="en">5. Read-only mode</span><span class="uk">5. Режим read-only</span></a></li>
-        <li><a href="#updates"><span class="en">6. Updates</span><span class="uk">6. Оновлення</span></a></li>
-        <li><a href="#troubleshooting"><span class="en">7. Troubleshooting</span><span class="uk">7. Усунення проблем</span></a></li>
+        <li><a href="#linter"><span class="en">3. Linter — on by default</span><span class="uk">3. Лінтер — увімкнений за замовчуванням</span></a></li>
+        <li><a href="#telemetry"><span class="en">4. Telemetry</span><span class="uk">4. Телеметрія</span></a></li>
       </ul>
     </div>
   </div>
@@ -554,18 +539,41 @@
 
 <main class="container" id="manual-body">
 
-  <!-- TODO(k4Yd7iwV): every .stub block below is a placeholder. Replace with
-       Sara's final copy from card k4Yd7iwV before merging to master. -->
+  <!-- Copy source: card k4Yd7iwV (Sara), based on app-v0.25.3. -->
 
   <section class="manual-section" id="install" aria-labelledby="install-h">
     <h2 id="install-h">
       <span class="en">1. Install</span>
       <span class="uk">1. Встановлення</span>
     </h2>
-    <div class="stub">
-      <span class="en">Draft placeholder — final copy lands with card k4Yd7iwV.</span>
-      <span class="uk">Чернетка-заглушка — фінальний текст прийде з картки k4Yd7iwV.</span>
-    </div>
+
+    <p>
+      <span class="en">Download the installer for your OS from the <a href="https://github.com/ceh13-community/rozoom/releases/latest" target="_blank" rel="noopener noreferrer">latest release</a>.</span>
+      <span class="uk">Завантажте інсталятор для своєї ОС зі <a href="https://github.com/ceh13-community/rozoom/releases/latest" target="_blank" rel="noopener noreferrer">сторінки останнього релізу</a>.</span>
+    </p>
+
+    <h3>Linux</h3>
+
+    <p>
+      <span class="en">ROZOOM ships as <code>.deb</code> and <code>.rpm</code> packages.</span>
+      <span class="uk">ROZOOM постачається у форматах <code>.deb</code> і <code>.rpm</code>.</span>
+    </p>
+
+    <ul>
+      <li>
+        <span class="en"><strong>.deb</strong> (Ubuntu, Debian, and derivatives): download the file, then either double-click it in your file manager, or run:<br/><code>sudo apt install ./rozoom_&lt;version&gt;_amd64.deb</code></span>
+        <span class="uk"><strong>.deb</strong> (Ubuntu, Debian та похідні): завантажте файл, потім двічі клацніть на нього у файловому менеджері, або виконайте в терміналі:<br/><code>sudo apt install ./rozoom_&lt;версія&gt;_amd64.deb</code></span>
+      </li>
+      <li>
+        <span class="en"><strong>.rpm</strong> (Fedora, openSUSE, and derivatives): download the file, then run:<br/><code>sudo dnf install ./rozoom-&lt;version&gt;.x86_64.rpm</code><br/>(on openSUSE: <code>sudo zypper install ./rozoom-&lt;version&gt;.x86_64.rpm</code>)</span>
+        <span class="uk"><strong>.rpm</strong> (Fedora, openSUSE та похідні): завантажте файл, потім виконайте:<br/><code>sudo dnf install ./rozoom-&lt;версія&gt;.x86_64.rpm</code><br/>(на openSUSE: <code>sudo zypper install ./rozoom-&lt;версія&gt;.x86_64.rpm</code>)</span>
+      </li>
+    </ul>
+
+    <p>
+      <span class="en">Launch ROZOOM from your applications menu once installed.</span>
+      <span class="uk">Після встановлення запустіть ROZOOM з меню застосунків.</span>
+    </p>
   </section>
 
   <section class="manual-section" id="connect" aria-labelledby="connect-h">
@@ -573,65 +581,78 @@
       <span class="en">2. Connect a cluster</span>
       <span class="uk">2. Підключення кластера</span>
     </h2>
-    <div class="stub">
-      <span class="en">Draft placeholder — final copy lands with card k4Yd7iwV.</span>
-      <span class="uk">Чернетка-заглушка — фінальний текст прийде з картки k4Yd7iwV.</span>
+
+    <p>
+      <span class="en">The first screen after install is <strong>Manage Kubernetes Clusters</strong>. ROZOOM doesn't create clusters — it only connects to ones you already have. Three ways in:</span>
+      <span class="uk">Перший екран після встановлення — <strong>Manage Kubernetes Clusters</strong>. ROZOOM не створює кластери — лише підключається до вже наявних. Три способи:</span>
+    </p>
+
+    <ul>
+      <li>
+        <span class="en">Upload a kubeconfig file</span>
+        <span class="uk">Завантажити файл kubeconfig</span>
+      </li>
+      <li>
+        <span class="en">Paste kubeconfig YAML directly</span>
+        <span class="uk">Вставити YAML kubeconfig напряму</span>
+      </li>
+      <li>
+        <span class="en">Let ROZOOM scan standard locations (<code>~/.kube/config</code>, <code>$KUBECONFIG</code>, cloud CLIs) — matches show up under "Detected kubeconfig files"</span>
+        <span class="uk">Дати ROZOOM просканувати стандартні місця (<code>~/.kube/config</code>, <code>$KUBECONFIG</code>, хмарні CLI) — знайдені збіги з'являються у списку "Detected kubeconfig files"</span>
+      </li>
+    </ul>
+
+    <div class="note">
+      <p>
+        <span class="en">Nothing connects automatically. Every detected or pasted config needs a confirmation click before ROZOOM touches it.</span>
+        <span class="uk">Нічого не підключається автоматично. Кожен знайдений чи вставлений конфіг потребує підтвердження кліком, перш ніж ROZOOM його використає.</span>
+      </p>
     </div>
   </section>
 
-  <section class="manual-section" id="fleet" aria-labelledby="fleet-h">
-    <h2 id="fleet-h">
-      <span class="en">3. Fleet overview</span>
-      <span class="uk">3. Огляд флоту</span>
+  <section class="manual-section" id="linter" aria-labelledby="linter-h">
+    <h2 id="linter-h">
+      <span class="en">3. Linter — on by default</span>
+      <span class="uk">3. Лінтер — увімкнений за замовчуванням</span>
     </h2>
-    <div class="stub">
-      <span class="en">Draft placeholder — final copy lands with card k4Yd7iwV.</span>
-      <span class="uk">Чернетка-заглушка — фінальний текст прийде з картки k4Yd7iwV.</span>
-    </div>
+
+    <p>
+      <span class="en">Once a cluster is connected, ROZOOM runs a health check immediately — nothing to turn on. Results show up on the cluster's card as Critical, Warning, or OK, broken down by Health, Capacity, HA, and Security.</span>
+      <span class="uk">Одразу після підключення кластера ROZOOM сам запускає перевірку — нічого не потрібно вмикати. Результат з'являється на картці кластера: Critical, Warning або OK, з розбивкою по Health, Capacity, HA та Security.</span>
+    </p>
+
+    <p>
+      <span class="en">You can turn the linter off two ways:</span>
+      <span class="uk">Вимкнути лінтер можна двома способами:</span>
+    </p>
+
+    <ul>
+      <li>
+        <span class="en"><strong>Per cluster</strong> — click the gauge icon on that cluster's card.</span>
+        <span class="uk"><strong>Для одного кластера</strong> — клацніть на іконку-гейдж на картці цього кластера.</span>
+      </li>
+      <li>
+        <span class="en"><strong>For everything</strong> — use the toggle in the dashboard's top toolbar.</span>
+        <span class="uk"><strong>Для всіх кластерів одразу</strong> — тогл у верхній панелі дашборду.</span>
+      </li>
+    </ul>
+
+    <p>
+      <span class="en">When it's off, the cluster shows a "Paused" badge and a banner reminding you diagnostics won't run until you turn it back on.</span>
+      <span class="uk">Коли лінтер вимкнено, на картці з'являється позначка "Paused" і банер із нагадуванням, що діагностика не запускатиметься, доки ви не увімкнете його знову.</span>
+    </p>
   </section>
 
-  <section class="manual-section" id="workloads" aria-labelledby="workloads-h">
-    <h2 id="workloads-h">
-      <span class="en">4. Workloads &amp; actions</span>
-      <span class="uk">4. Workload-и та дії</span>
+  <section class="manual-section" id="telemetry" aria-labelledby="telemetry-h">
+    <h2 id="telemetry-h">
+      <span class="en">4. Telemetry</span>
+      <span class="uk">4. Телеметрія</span>
     </h2>
-    <div class="stub">
-      <span class="en">Draft placeholder — final copy lands with card k4Yd7iwV.</span>
-      <span class="uk">Чернетка-заглушка — фінальний текст прийде з картки k4Yd7iwV.</span>
-    </div>
-  </section>
 
-  <section class="manual-section" id="readonly" aria-labelledby="readonly-h">
-    <h2 id="readonly-h">
-      <span class="en">5. Read-only mode</span>
-      <span class="uk">5. Режим read-only</span>
-    </h2>
-    <div class="stub">
-      <span class="en">Draft placeholder — final copy lands with card k4Yd7iwV.</span>
-      <span class="uk">Чернетка-заглушка — фінальний текст прийде з картки k4Yd7iwV.</span>
-    </div>
-  </section>
-
-  <section class="manual-section" id="updates" aria-labelledby="updates-h">
-    <h2 id="updates-h">
-      <span class="en">6. Updates</span>
-      <span class="uk">6. Оновлення</span>
-    </h2>
-    <div class="stub">
-      <span class="en">Draft placeholder — final copy lands with card k4Yd7iwV.</span>
-      <span class="uk">Чернетка-заглушка — фінальний текст прийде з картки k4Yd7iwV.</span>
-    </div>
-  </section>
-
-  <section class="manual-section" id="troubleshooting" aria-labelledby="troubleshooting-h">
-    <h2 id="troubleshooting-h">
-      <span class="en">7. Troubleshooting</span>
-      <span class="uk">7. Усунення проблем</span>
-    </h2>
-    <div class="stub">
-      <span class="en">Draft placeholder — final copy lands with card k4Yd7iwV.</span>
-      <span class="uk">Чернетка-заглушка — фінальний текст прийде з картки k4Yd7iwV.</span>
-    </div>
+    <p>
+      <span class="en">The first time a scan finishes, ROZOOM shows a banner asking whether you want to share anonymous usage data — it only asks after you've actually seen the app do something, not before. Nothing is sent before you answer, not even the fact that you added a cluster. Choose "No thanks" and nothing leaves your machine. You can change this later in Fleet Settings.</span>
+      <span class="uk">Коли перше сканування завершиться, ROZOOM покаже банер із питанням, чи хочете ви поділитися анонімними даними про використання — питання з'являється лише після того, як ви побачили застосунок у дії, а не до того. До вашої відповіді нічого не надсилається, навіть факт додавання кластера. Оберіть "No thanks" — і з вашого пристрою нічого не піде. Змінити це рішення пізніше можна у Fleet Settings.</span>
+    </p>
   </section>
 
 </main>
