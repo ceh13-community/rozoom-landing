@@ -539,40 +539,51 @@
 
 <main class="container" id="manual-body">
 
-  <!-- Copy source: card k4Yd7iwV (Sara), based on app-v0.25.3. -->
-
   <section class="manual-section" id="install" aria-labelledby="install-h">
     <h2 id="install-h">
       <span class="en">1. Install</span>
       <span class="uk">1. Встановлення</span>
     </h2>
-
     <p>
       <span class="en">Download the installer for your OS from the <a href="https://github.com/ceh13-community/rozoom/releases/latest" target="_blank" rel="noopener noreferrer">latest release</a>.</span>
       <span class="uk">Завантажте інсталятор для своєї ОС зі <a href="https://github.com/ceh13-community/rozoom/releases/latest" target="_blank" rel="noopener noreferrer">сторінки останнього релізу</a>.</span>
     </p>
-
+    <p>
+      <span class="en">Each platform has two variants — <strong>slim</strong> (smaller download, pulls in CLI tools like kubectl on first use) and <strong>full-offline</strong> (everything bundled, no network needed after download); pick slim unless you need to work offline.</span>
+      <span class="uk">Для кожної платформи є два варіанти — <strong>slim</strong> (менший файл, підтягує CLI-інструменти типу kubectl при першому використанні) і <strong>full-offline</strong> (усе вже всередині, мережа після завантаження не потрібна); обирайте slim, якщо не потрібна офлайн-робота.</span>
+    </p>
     <h3>Linux</h3>
-
     <p>
       <span class="en">ROZOOM ships as <code>.deb</code> and <code>.rpm</code> packages.</span>
       <span class="uk">ROZOOM постачається у форматах <code>.deb</code> і <code>.rpm</code>.</span>
     </p>
-
     <ul>
       <li>
-        <span class="en"><strong>.deb</strong> (Ubuntu, Debian, and derivatives): download the file, then either double-click it in your file manager, or run:<br/><code>sudo apt install ./rozoom_&lt;version&gt;_amd64.deb</code></span>
-        <span class="uk"><strong>.deb</strong> (Ubuntu, Debian та похідні): завантажте файл, потім двічі клацніть на нього у файловому менеджері, або виконайте в терміналі:<br/><code>sudo apt install ./rozoom_&lt;версія&gt;_amd64.deb</code></span>
+        <span class="en"><strong>.deb</strong> (Ubuntu, Debian, and derivatives): download the file, then either double-click it in your file manager, or run:<br/><code>sudo apt install ./ROZOOM_K8s_Linter_IDE_&lt;version&gt;_amd64_slim.deb</code></span>
+        <span class="uk"><strong>.deb</strong> (Ubuntu, Debian та похідні): завантажте файл, потім двічі клацніть на нього у файловому менеджері, або виконайте в терміналі:<br/><code>sudo apt install ./ROZOOM_K8s_Linter_IDE_&lt;версія&gt;_amd64_slim.deb</code></span>
       </li>
       <li>
-        <span class="en"><strong>.rpm</strong> (Fedora, openSUSE, and derivatives): download the file, then run:<br/><code>sudo dnf install ./rozoom-&lt;version&gt;.x86_64.rpm</code><br/>(on openSUSE: <code>sudo zypper install ./rozoom-&lt;version&gt;.x86_64.rpm</code>)</span>
-        <span class="uk"><strong>.rpm</strong> (Fedora, openSUSE та похідні): завантажте файл, потім виконайте:<br/><code>sudo dnf install ./rozoom-&lt;версія&gt;.x86_64.rpm</code><br/>(на openSUSE: <code>sudo zypper install ./rozoom-&lt;версія&gt;.x86_64.rpm</code>)</span>
+        <span class="en"><strong>.rpm</strong> (Fedora, openSUSE, and derivatives): download the file, then run:<br/><code>sudo dnf install ./ROZOOM_K8s_Linter_IDE-&lt;version&gt;-1.x86_64_slim.rpm</code><br/>(on openSUSE: <code>sudo zypper install ./ROZOOM_K8s_Linter_IDE-&lt;version&gt;-1.x86_64_slim.rpm</code>)</span>
+        <span class="uk"><strong>.rpm</strong> (Fedora, openSUSE та похідні): завантажте файл, потім виконайте:<br/><code>sudo dnf install ./ROZOOM_K8s_Linter_IDE-&lt;версія&gt;-1.x86_64_slim.rpm</code><br/>(на openSUSE: <code>sudo zypper install ./ROZOOM_K8s_Linter_IDE-&lt;версія&gt;-1.x86_64_slim.rpm</code>)</span>
       </li>
     </ul>
-
     <p>
-      <span class="en">Launch ROZOOM from your applications menu once installed.</span>
-      <span class="uk">Після встановлення запустіть ROZOOM з меню застосунків.</span>
+      <span class="en">(swap <code>slim</code> for <code>full-offline</code> in the filename if you picked that variant)</span>
+      <span class="uk">(замініть <code>slim</code> на <code>full-offline</code> у назві файлу, якщо обрали цей варіант)</span>
+    </p>
+    <h3>Windows</h3>
+    <p>
+      <span class="en">Download the <code>.exe</code> or <code>.msi</code> installer and run it.</span>
+      <span class="uk">Завантажте інсталятор <code>.exe</code> або <code>.msi</code> і запустіть його.</span>
+    </p>
+    <h3>macOS</h3>
+    <p>
+      <span class="en">Download the <code>.dmg</code> (Apple Silicon / aarch64 only — no Intel build yet), open it, and drag ROZOOM to Applications.</span>
+      <span class="uk">Завантажте <code>.dmg</code> (лише Apple Silicon / aarch64 — збірки для Intel ще немає), відкрийте його і перетягніть ROZOOM у Applications.</span>
+    </p>
+    <p>
+      <span class="en">Launch ROZOOM from your applications menu (or Start menu / Launchpad) once installed.</span>
+      <span class="uk">Після встановлення запустіть ROZOOM з меню застосунків (або зі Start menu / Launchpad).</span>
     </p>
   </section>
 
