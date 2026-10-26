@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Rozoom User Manual — install, connect, operate</title>
+
+  <!-- SEO -->
+  <meta name="description" content="The ROZOOM user manual: install the desktop app, connect a Kubernetes cluster, and work with fleet health, workloads, logs, and read-only mode."/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://rozoom.app/manual"/>
+  <link rel="alternate" hreflang="en" href="https://rozoom.app/manual"/>
+  <link rel="alternate" hreflang="uk" href="https://rozoom.app/manual?lang=uk"/>
+  <link rel="alternate" hreflang="x-default" href="https://rozoom.app/manual"/>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="https://rozoom.app/manual"/>
+  <meta property="og:site_name" content="Rozoom"/>
+  <meta property="og:title" content="Rozoom User Manual"/>
+  <meta property="og:description" content="Install the ROZOOM desktop app, connect a Kubernetes cluster, and work with fleet health, workloads, logs, and read-only mode."/>
+  <meta property="og:image" content="https://rozoom.app/og-rozoom-1280x640.png"/>
+  <meta property="og:image:width" content="1280"/>
+  <meta property="og:image:height" content="640"/>
+  <meta property="og:image:alt" content="Rozoom — Kubernetes clarity. Without the friction."/>
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Rozoom User Manual"/>
+  <meta name="twitter:description" content="Install the ROZOOM desktop app, connect a Kubernetes cluster, and work with fleet health, workloads, logs, and read-only mode."/>
+  <meta name="twitter:image" content="https://rozoom.app/og-rozoom-1280x640.png"/>
+
+  <!-- Favicon placeholder -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%230d2140'/><line x1='16' y1='4' x2='16' y2='28' stroke='%235daaf6' stroke-width='2.5' stroke-linecap='round'/><line x1='4' y1='16' x2='28' y2='16' stroke='%235daaf6' stroke-width='2.5' stroke-linecap='round'/><line x1='7.5' y1='7.5' x2='24.5' y2='24.5' stroke='%235daaf6' stroke-width='2.5' stroke-linecap='round'/><line x1='24.5' y1='7.5' x2='7.5' y2='24.5' stroke='%235daaf6' stroke-width='2.5' stroke-linecap='round'/><circle cx='16' cy='16' r='5.5' fill='none' stroke='%235daaf6' stroke-width='2'/><circle cx='16' cy='16' r='2' fill='%235daaf6'/></svg>"/>
+
+  <style>
+    /* ---- Reset & tokens (same as index.html) -------------------- */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:            #040c1a;
+      --bg-elevated:   #0d2140;
+      --bg-card:       rgba(13,33,64,0.7);
+      --primary:       #2b7be0;
+      --primary-light: #5daaf6;
+      --primary-glow:  rgba(43,123,224,0.18);
+      --text:          #d8eeff;
+      --text-sub:      rgba(146,200,250,0.72);
+      --text-muted:    rgba(146,200,250,0.45);
+      --border:        rgba(43,123,224,0.18);
+      --border-hover:  rgba(93,170,246,0.35);
+      --success:       #36d96b;
+      --radius:        12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- i18n -------------------------------------------------- */
+    [data-lang="en"] .uk  { display: none; }
+    [data-lang="uk"] .en  { display: none; }
+
+    /* ---- Subtle global grid bg --------------------------------- */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(43,123,224,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(43,123,224,0.04) 1px, transparent 1px);
+      background-size: 56px 56px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ---- Layout helpers ---------------------------------------- */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ---- NAV (same as index.html) ------------------------------- */
+    nav.site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(4,12,26,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-mark { width: 28px; height: 28px; }
+
+    .nav-wordmark {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--primary-light);
+      text-transform: uppercase;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .lang-btn {
+      padding: 4px 12px;
+      cursor: pointer;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .lang-btn:hover { color: var(--text-sub); }
+
+    [data-lang="en"] .lang-btn[data-l="en"],
+    [data-lang="uk"] .lang-btn[data-l="uk"] {
+      color: var(--text);
+      background: var(--primary-glow);
+    }
+
+    .nav-gh {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 16px;
+      border-radius: 8px;
+      background: var(--primary-glow);
+      border: 1px solid var(--border-hover);
+      color: var(--primary-light);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .nav-gh:hover {
+      background: rgba(43,123,224,0.28);
+      border-color: var(--primary-light);
+    }
+
+    /* ---- MANUAL HEADER ------------------------------------------ */
+    #manual-hero {
+      position: relative;
+      padding: 72px 0 48px;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -160px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(21,85,204,0.2) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .manual-h1 {
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .manual-h1 .hl { color: var(--primary-light); }
+
+    .manual-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: var(--text-sub);
+      max-width: 640px;
+      line-height: 1.6;
+    }
+
+    /* ---- TOC ----------------------------------------------------- */
+    #toc {
+      padding: 32px 0 16px;
+    }
+
+    .toc-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+    }
+
+    .toc-box h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px 32px;
+    }
+
+    .toc-list a {
+      color: var(--primary-light);
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .toc-list a:hover { text-decoration: underline; }
+
+    /* ---- MANUAL BODY --------------------------------------------- */
+    .manual-section {
+      padding: 56px 0 8px;
+      border-top: 1px solid transparent;
+    }
+
+    .manual-section + .manual-section { border-top-color: var(--border); margin-top: 48px; }
+
+    .manual-section h2 {
+      font-size: clamp(24px, 3.2vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .manual-section h3 {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 28px 0 10px;
+    }
+
+    .manual-section p,
+    .manual-section li {
+      font-size: 16px;
+      color: var(--text-sub);
+      line-height: 1.65;
+      max-width: 760px;
+    }
+
+    .manual-section p { margin-bottom: 14px; }
+
+    .manual-section ul,
+    .manual-section ol {
+      margin: 0 0 14px 22px;
+    }
+
+    .manual-section code {
+      font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 14px;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: rgba(13,33,64,0.9);
+      border: 1px solid var(--border);
+      color: var(--primary-light);
+    }
+
+    .note {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--primary);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+      max-width: 760px;
+    }
+
+    .note p { margin: 0; font-size: 15px; }
+
+    /* ---- BACK / FOOTER CTA -------------------------------------- */
+    #manual-cta { padding: 72px 0 40px; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 4px 24px rgba(43,123,224,0.35);
+    }
+
+    .btn-primary:hover { background: #3a8af0; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: 10px;
+      border: 1px solid var(--border-hover);
+      color: var(--text-sub);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .btn-ghost:hover { border-color: var(--primary-light); color: var(--text); }
+
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ---- FOOTER (same as index.html) ----------------------------- */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .footer-brand {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--primary-light);
+      text-transform: uppercase;
+    }
+
+    .footer-license {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover { color: var(--text-sub); }
+
+    /* ---- FOCUS (a11y) ----------------------------------------- */
+    :focus-visible {
+      outline: 2px solid var(--primary-light);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ---- RESPONSIVE ------------------------------------------- */
+    @media (max-width: 768px) {
+      #manual-hero { padding: 56px 0 36px; }
+      .toc-list { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+      .nav-gh .gh-label { display: none; }
+    }
+
+    /* ---- Skip nav (a11y) -------------------------------------- */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 8px;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 14px;
+      text-decoration: none;
+      z-index: 999;
+    }
+    .skip-link:focus { left: 8px; }
+  </style>
+</head>
+<body>
+
+<a href="#manual-hero" class="skip-link">
+  <span class="en">Skip to content</span>
+  <span class="uk">Перейти до змісту</span>
+</a>
+
+<!-- NAV -->
+<nav class="site-nav" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Rozoom home">
+      <svg class="nav-logo-mark" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="nl" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8e4ff"/>
+            <stop offset="40%" stop-color="#2b7be0"/>
+            <stop offset="100%" stop-color="#082590"/>
+          </linearGradient>
+        </defs>
+        <circle cx="130" cy="130" r="120" fill="none" stroke="url(#nl)" stroke-width="20"/>
+        <line x1="130" y1="14" x2="130" y2="246" stroke="url(#nl)" stroke-width="16" stroke-linecap="round"/>
+        <line x1="14" y1="130" x2="246" y2="130" stroke="url(#nl)" stroke-width="16" stroke-linecap="round"/>
+        <line x1="45" y1="45" x2="215" y2="215" stroke="url(#nl)" stroke-width="16" stroke-linecap="round"/>
+        <line x1="215" y1="45" x2="45" y2="215" stroke="url(#nl)" stroke-width="16" stroke-linecap="round"/>
+        <circle cx="130" cy="130" r="34" fill="none" stroke="url(#nl)" stroke-width="16"/>
+        <circle cx="130" cy="130" r="14" fill="#2b7be0"/>
+      </svg>
+      <span class="nav-wordmark">Rozoom</span>
+    </a>
+
+    <div class="nav-actions">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn" data-l="en" onclick="setLang('en')" aria-label="English">EN</button>
+        <button class="lang-btn" data-l="uk" onclick="setLang('uk')" aria-label="Українська">UK</button>
+      </div>
+      <a href="https://github.com/ceh13-community/rozoom" class="nav-gh" target="_blank" rel="noopener noreferrer">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        <span class="gh-label en">GitHub</span>
+        <span class="gh-label uk">GitHub</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- MANUAL HEADER -->
+<section id="manual-hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container">
+    <p class="section-label">
+      <span class="en">User manual</span>
+      <span class="uk">Посібник користувача</span>
+    </p>
+    <h1 class="manual-h1">
+      <span class="en">ROZOOM <span class="hl">User Manual</span></span>
+      <span class="uk">Інструкція користувача <span class="hl">ROZOOM</span></span>
+    </h1>
+    <p class="manual-sub">
+      <span class="en">How to install ROZOOM, connect a cluster, and work with the built-in linter and telemetry settings.</span>
+      <span class="uk">Як встановити ROZOOM, підключити кластер і працювати з вбудованим лінтером та налаштуваннями телеметрії.</span>
+    </p>
+  </div>
+</section>
+
+<!-- TOC -->
+<section id="toc" aria-label="Table of contents">
+  <div class="container">
+    <div class="toc-box">
+      <h2>
+        <span class="en">Contents</span>
+        <span class="uk">Зміст</span>
+      </h2>
+      <ul class="toc-list">
+        <li><a href="#install"><span class="en">1. Install</span><span class="uk">1. Встановлення</span></a></li>
+        <li><a href="#connect"><span class="en">2. Connect a cluster</span><span class="uk">2. Підключення кластера</span></a></li>
+        <li><a href="#linter"><span class="en">3. Linter — on by default</span><span class="uk">3. Лінтер — увімкнений за замовчуванням</span></a></li>
+        <li><a href="#telemetry"><span class="en">4. Telemetry</span><span class="uk">4. Телеметрія</span></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<main class="container" id="manual-body">
+
+  <section class="manual-section" id="install" aria-labelledby="install-h">
+    <h2 id="install-h">
+      <span class="en">1. Install</span>
+      <span class="uk">1. Встановлення</span>
+    </h2>
+    <p>
+      <span class="en">Download the installer for your OS from the <a href="https://github.com/ceh13-community/rozoom/releases/latest" target="_blank" rel="noopener noreferrer">latest release</a>.</span>
+      <span class="uk">Завантажте інсталятор для своєї ОС зі <a href="https://github.com/ceh13-community/rozoom/releases/latest" target="_blank" rel="noopener noreferrer">сторінки останнього релізу</a>.</span>
+    </p>
+    <p>
+      <span class="en">Each platform has two variants — <strong>slim</strong> (smaller download, pulls in CLI tools like kubectl on first use) and <strong>full-offline</strong> (everything bundled, no network needed after download); pick slim unless you need to work offline.</span>
+      <span class="uk">Для кожної платформи є два варіанти — <strong>slim</strong> (менший файл, підтягує CLI-інструменти типу kubectl при першому використанні) і <strong>full-offline</strong> (усе вже всередині, мережа після завантаження не потрібна); обирайте slim, якщо не потрібна офлайн-робота.</span>
+    </p>
+    <h3>Linux</h3>
+    <p>
+      <span class="en">ROZOOM ships as <code>.deb</code> and <code>.rpm</code> packages.</span>
+      <span class="uk">ROZOOM постачається у форматах <code>.deb</code> і <code>.rpm</code>.</span>
+    </p>
+    <ul>
+      <li>
+        <span class="en"><strong>.deb</strong> (Ubuntu, Debian, and derivatives): download the file, then either double-click it in your file manager, or run:<br/><code>sudo apt install ./ROZOOM_K8s_Linter_IDE_&lt;version&gt;_amd64_slim.deb</code></span>
+        <span class="uk"><strong>.deb</strong> (Ubuntu, Debian та похідні): завантажте файл, потім двічі клацніть на нього у файловому менеджері, або виконайте в терміналі:<br/><code>sudo apt install ./ROZOOM_K8s_Linter_IDE_&lt;версія&gt;_amd64_slim.deb</code></span>
+      </li>
+      <li>
+        <span class="en"><strong>.rpm</strong> (Fedora, openSUSE, and derivatives): download the file, then run:<br/><code>sudo dnf install ./ROZOOM_K8s_Linter_IDE-&lt;version&gt;-1.x86_64_slim.rpm</code><br/>(on openSUSE: <code>sudo zypper install ./ROZOOM_K8s_Linter_IDE-&lt;version&gt;-1.x86_64_slim.rpm</code>)</span>
+        <span class="uk"><strong>.rpm</strong> (Fedora, openSUSE та похідні): завантажте файл, потім виконайте:<br/><code>sudo dnf install ./ROZOOM_K8s_Linter_IDE-&lt;версія&gt;-1.x86_64_slim.rpm</code><br/>(на openSUSE: <code>sudo zypper install ./ROZOOM_K8s_Linter_IDE-&lt;версія&gt;-1.x86_64_slim.rpm</code>)</span>
+      </li>
+    </ul>
+    <p>
+      <span class="en">(swap <code>slim</code> for <code>full-offline</code> in the filename if you picked that variant)</span>
+      <span class="uk">(замініть <code>slim</code> на <code>full-offline</code> у назві файлу, якщо обрали цей варіант)</span>
+    </p>
+    <h3>Windows</h3>
+    <p>
+      <span class="en">Download the <code>.exe</code> or <code>.msi</code> installer and run it.</span>
+      <span class="uk">Завантажте інсталятор <code>.exe</code> або <code>.msi</code> і запустіть його.</span>
+    </p>
+    <h3>macOS</h3>
+    <p>
+      <span class="en">Download the <code>.dmg</code> (Apple Silicon / aarch64 only — no Intel build yet), open it, and drag ROZOOM to Applications.</span>
+      <span class="uk">Завантажте <code>.dmg</code> (лише Apple Silicon / aarch64 — збірки для Intel ще немає), відкрийте його і перетягніть ROZOOM у Applications.</span>
+    </p>
+    <p>
+      <span class="en">Launch ROZOOM from your applications menu (or Start menu / Launchpad) once installed.</span>
+      <span class="uk">Після встановлення запустіть ROZOOM з меню застосунків (або зі Start menu / Launchpad).</span>
+    </p>
+  </section>
+
+  <section class="manual-section" id="connect" aria-labelledby="connect-h">
+    <h2 id="connect-h">
+      <span class="en">2. Connect a cluster</span>
+      <span class="uk">2. Підключення кластера</span>
+    </h2>
+
+    <p>
+      <span class="en">The first screen after install is <strong>Manage Kubernetes Clusters</strong>. ROZOOM doesn't create clusters — it only connects to ones you already have. Three ways in:</span>
+      <span class="uk">Перший екран після встановлення — <strong>Manage Kubernetes Clusters</strong>. ROZOOM не створює кластери — лише підключається до вже наявних. Три способи:</span>
+    </p>
+
+    <ul>
+      <li>
+        <span class="en">Upload a kubeconfig file</span>
+        <span class="uk">Завантажити файл kubeconfig</span>
+      </li>
+      <li>
+        <span class="en">Paste kubeconfig YAML directly</span>
+        <span class="uk">Вставити YAML kubeconfig напряму</span>
+      </li>
+      <li>
+        <span class="en">Let ROZOOM scan standard locations (<code>~/.kube/config</code>, <code>$KUBECONFIG</code>, cloud CLIs) — matches show up under "Detected kubeconfig files"</span>
+        <span class="uk">Дати ROZOOM просканувати стандартні місця (<code>~/.kube/config</code>, <code>$KUBECONFIG</code>, хмарні CLI) — знайдені збіги з'являються у списку "Detected kubeconfig files"</span>
+      </li>
+    </ul>
+
+    <div class="note">
+      <p>
+        <span class="en">Nothing connects automatically. Every detected or pasted config needs a confirmation click before ROZOOM touches it.</span>
+        <span class="uk">Нічого не підключається автоматично. Кожен знайдений чи вставлений конфіг потребує підтвердження кліком, перш ніж ROZOOM його використає.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="manual-section" id="linter" aria-labelledby="linter-h">
+    <h2 id="linter-h">
+      <span class="en">3. Linter — on by default</span>
+      <span class="uk">3. Лінтер — увімкнений за замовчуванням</span>
+    </h2>
+
+    <p>
+      <span class="en">Once a cluster is connected, ROZOOM runs a health check immediately — nothing to turn on. Results show up on the cluster's card as Critical, Warning, or OK, broken down by Health, Capacity, HA, and Security.</span>
+      <span class="uk">Одразу після підключення кластера ROZOOM сам запускає перевірку — нічого не потрібно вмикати. Результат з'являється на картці кластера: Critical, Warning або OK, з розбивкою по Health, Capacity, HA та Security.</span>
+    </p>
+
+    <p>
+      <span class="en">You can turn the linter off two ways:</span>
+      <span class="uk">Вимкнути лінтер можна двома способами:</span>
+    </p>
+
+    <ul>
+      <li>
+        <span class="en"><strong>Per cluster</strong> — click the gauge icon on that cluster's card.</span>
+        <span class="uk"><strong>Для одного кластера</strong> — клацніть на іконку-гейдж на картці цього кластера.</span>
+      </li>
+      <li>
+        <span class="en"><strong>For everything</strong> — use the toggle in the dashboard's top toolbar.</span>
+        <span class="uk"><strong>Для всіх кластерів одразу</strong> — тогл у верхній панелі дашборду.</span>
+      </li>
+    </ul>
+
+    <p>
+      <span class="en">When it's off, the cluster shows a "Paused" badge and a banner reminding you diagnostics won't run until you turn it back on.</span>
+      <span class="uk">Коли лінтер вимкнено, на картці з'являється позначка "Paused" і банер із нагадуванням, що діагностика не запускатиметься, доки ви не увімкнете його знову.</span>
+    </p>
+  </section>
+
+  <section class="manual-section" id="telemetry" aria-labelledby="telemetry-h">
+    <h2 id="telemetry-h">
+      <span class="en">4. Telemetry</span>
+      <span class="uk">4. Телеметрія</span>
+    </h2>
+
+    <p>
+      <span class="en">The first time a scan finishes, ROZOOM shows a banner asking whether you want to share anonymous usage data — it only asks after you've actually seen the app do something, not before. Nothing is sent before you answer, not even the fact that you added a cluster. Choose "No thanks" and nothing leaves your machine. You can change this later in Fleet Settings.</span>
+      <span class="uk">Коли перше сканування завершиться, ROZOOM покаже банер із питанням, чи хочете ви поділитися анонімними даними про використання — питання з'являється лише після того, як ви побачили застосунок у дії, а не до того. До вашої відповіді нічого не надсилається, навіть факт додавання кластера. Оберіть "No thanks" — і з вашого пристрою нічого не піде. Змінити це рішення пізніше можна у Fleet Settings.</span>
+    </p>
+  </section>
+
+</main>
+
+<!-- CTA -->
+<section id="manual-cta" aria-label="Download">
+  <div class="container">
+    <div class="cta-actions">
+      <a href="https://github.com/ceh13-community/rozoom/releases/latest" class="btn-primary" target="_blank" rel="noopener noreferrer">
+        <span class="en">Download Rozoom — it's free</span>
+        <span class="uk">Завантажте Rozoom — безкоштовно</span>
+      </a>
+      <a href="/" class="btn-ghost">
+        <span class="en">← Back to rozoom.app</span>
+        <span class="uk">← Назад на rozoom.app</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <a href="/" class="footer-logo" aria-label="Rozoom home">
+          <svg width="20" height="20" viewBox="0 0 260 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs><linearGradient id="fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c8e4ff"/><stop offset="50%" stop-color="#2b7be0"/><stop offset="100%" stop-color="#082590"/></linearGradient></defs>
+            <circle cx="130" cy="130" r="120" fill="none" stroke="url(#fl)" stroke-width="20"/>
+            <line x1="130" y1="14" x2="130" y2="246" stroke="url(#fl)" stroke-width="16" stroke-linecap="round"/>
+            <line x1="14" y1="130" x2="246" y2="130" stroke="url(#fl)" stroke-width="16" stroke-linecap="round"/>
+            <line x1="45" y1="45" x2="215" y2="215" stroke="url(#fl)" stroke-width="16" stroke-linecap="round"/>
+            <line x1="215" y1="45" x2="45" y2="215" stroke="url(#fl)" stroke-width="16" stroke-linecap="round"/>
+            <circle cx="130" cy="130" r="34" fill="none" stroke="url(#fl)" stroke-width="16"/>
+            <circle cx="130" cy="130" r="14" fill="#2b7be0"/>
+          </svg>
+          <span class="footer-brand">Rozoom</span>
+        </a>
+        <span class="footer-license">
+          <span class="en">© 2026 · Apache 2.0 · Open source Kubernetes manager</span>
+          <span class="uk">© 2026 · Apache 2.0 · Відкритий Kubernetes-менеджер</span>
+        </span>
+      </div>
+
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="/manual">
+          <span class="en">Manual</span>
+          <span class="uk">Посібник</span>
+        </a>
+        <a href="https://news.rozoom.app/" target="_blank" rel="noopener noreferrer">
+          <span class="en">Blog</span>
+          <span class="uk">Блог</span>
+        </a>
+        <a href="https://github.com/ceh13-community/rozoom" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://github.com/ceh13-community/rozoom/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+          <span class="en">License</span>
+          <span class="uk">Ліцензія</span>
+        </a>
+        <a href="https://github.com/ceh13-community/rozoom/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">
+          <span class="en">Contribute</span>
+          <span class="uk">Долучитись</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // --- i18n (same behaviour as index.html) ---
+  function setLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.lang = lang;
+    localStorage.setItem('rozoom-lang', lang);
+    var canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.href = lang === 'uk'
+        ? 'https://rozoom.app/manual?lang=uk'
+        : 'https://rozoom.app/manual';
+    }
+  }
+
+  // restore saved lang or read ?lang= query param
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var lang = params.get('lang') || localStorage.getItem('rozoom-lang') || 'en';
+    if (lang === 'uk') setLang('uk');
+  })();
+</script>
+
+</body>
+</html>
