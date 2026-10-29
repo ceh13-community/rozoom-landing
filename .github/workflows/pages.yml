@@ -1,0 +1,83 @@
+# Single Pages deploy for landing + docs.
+#
+# Replaces the legacy deploy-from-branch (master root). One workflow, one
+# artifact: static landing files at /, Docusaurus EN build at /docs/,
+# UK build at /uk/docs/. The concurrency group serializes deploys so a
+# second merge queues instead of cancelling the first run mid-deploy
+# (the race that used to leave the site stale).
+#
+# Rollback: Settings -> Pages -> Source back to "Deploy from a branch"
+# (master /), same day, no code change needed.
+name: pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: docs-site/package-lock.json
+
+      - name: Install docs dependencies
+        working-directory: docs-site
+        run: npm ci
+
+      - name: Build docs (EN)
+        working-directory: docs-site
+        run: DOCS_LOCALE=en npx docusaurus build --out-dir build-en
+
+      - name: Build docs (UK)
+        working-directory: docs-site
+        run: DOCS_LOCALE=uk npx docusaurus build --out-dir build-uk
+
+      - name: Inject hreflang alternates
+        working-directory: docs-site
+        run: node scripts/add-hreflang.mjs build-en build-uk
+
+      - name: Assemble site (landing + docs)
+        run: |
+          mkdir -p _site
+          rsync -a --exclude docs-site --exclude .github --exclude .git \
+            --exclude _site ./ _site/
+          mkdir -p _site/uk
+          mv docs-site/build-en _site/docs
+          mv docs-site/build-uk _site/uk/docs
+
+      - name: Accuracy gate - no private email in published docs
+        run: |
+          if grep -rl "udawpk@gmail.com" _site; then
+            echo "private email leaked into the published site" >&2
+            exit 1
+          fi
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
