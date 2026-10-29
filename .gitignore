@@ -1,0 +1,5 @@
+docs-site/node_modules/
+docs-site/.docusaurus/
+docs-site/build-en/
+docs-site/build-uk/
+_site/

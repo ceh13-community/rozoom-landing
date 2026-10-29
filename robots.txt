@@ -2,3 +2,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://rozoom.app/sitemap.xml
+Sitemap: https://rozoom.app/docs/sitemap.xml
+Sitemap: https://rozoom.app/uk/docs/sitemap.xml

@@ -1,0 +1,29 @@
+/**
+ * ROZOOM docs theme: matches the landing palette (index.html tokens).
+ * Primary #2b7be0, light #5daaf6, dark bg #040c1a / #0d2140.
+ */
+
+:root {
+  --ifm-color-primary: #2b7be0;
+  --ifm-color-primary-dark: #1f6ed3;
+  --ifm-color-primary-darker: #1d68c7;
+  --ifm-color-primary-darkest: #1855a4;
+  --ifm-color-primary-light: #4290f4;
+  --ifm-color-primary-lighter: #5daaf6;
+  --ifm-color-primary-lightest: #82bff8;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #5daaf6;
+  --ifm-color-primary-dark: #3d98f4;
+  --ifm-color-primary-darker: #2d8ff3;
+  --ifm-color-primary-darkest: #0d76e0;
+  --ifm-color-primary-light: #7dbcf8;
+  --ifm-color-primary-lighter: #8dc5f9;
+  --ifm-color-primary-lightest: #bddefc;
+  --ifm-background-color: #040c1a;
+  --ifm-background-surface-color: #0d2140;
+  --docusaurus-highlighted-code-line-bg: rgba(43, 123, 224, 0.2);
+}

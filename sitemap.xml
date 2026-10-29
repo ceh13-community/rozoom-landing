@@ -3,20 +3,14 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://rozoom.app/</loc>
-    <lastmod>2026-10-16</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://rozoom.app/"/>
     <xhtml:link rel="alternate" hreflang="uk" href="https://rozoom.app/?lang=uk"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://rozoom.app/"/>
   </url>
-  <url>
-    <loc>https://rozoom.app/manual/</loc>
-    <lastmod>2026-10-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://rozoom.app/manual/"/>
-    <xhtml:link rel="alternate" hreflang="uk" href="https://rozoom.app/manual/?lang=uk"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://rozoom.app/manual/"/>
-  </url>
+  <!-- /manual/ redirects to /docs/user/quickstart/ and is intentionally
+       absent here. Docs pages live in /docs/sitemap.xml and
+       /uk/docs/sitemap.xml (see robots.txt). -->
 </urlset>

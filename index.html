@@ -167,6 +167,16 @@
       background: var(--primary-glow);
     }
 
+    .nav-docs {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+
+    .nav-docs:hover { color: var(--text); }
+
     .nav-gh {
       display: flex;
       align-items: center;
@@ -797,6 +807,10 @@
     </a>
 
     <div class="nav-actions">
+      <a href="/docs/" class="nav-docs" data-docs-link>
+        <span class="en">Docs</span>
+        <span class="uk">Документація</span>
+      </a>
       <div class="lang-toggle" role="group" aria-label="Language">
         <button class="lang-btn" data-l="en" onclick="setLang('en')" aria-label="English">EN</button>
         <button class="lang-btn" data-l="uk" onclick="setLang('uk')" aria-label="Українська">UK</button>
@@ -1291,6 +1305,10 @@
       canonical.href = lang === 'uk'
         ? 'https://rozoom.app/?lang=uk'
         : 'https://rozoom.app/';
+    }
+    var docsLink = document.querySelector('[data-docs-link]');
+    if (docsLink) {
+      docsLink.href = lang === 'uk' ? '/uk/docs/' : '/docs/';
     }
   }
 
