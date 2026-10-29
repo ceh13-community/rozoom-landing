@@ -68,6 +68,46 @@
     [data-lang="en"] .uk  { display: none; }
     [data-lang="uk"] .en  { display: none; }
 
+    /* ---- consent banner ---------------------------------------- */
+    .consent {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 16px;
+      z-index: 60;
+      width: min(720px, calc(100% - 32px));
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 14px 18px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+      font-size: 15px;
+    }
+    .consent[hidden] { display: none; }
+    .consent p { flex: 1 1 320px; color: var(--text-sub); line-height: 1.5; }
+    .consent a { color: var(--primary-light); }
+    .consent-actions { display: flex; gap: 10px; flex: 0 0 auto; }
+    .consent button {
+      font: inherit;
+      cursor: pointer;
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border-hover);
+      background: transparent;
+      color: var(--text);
+    }
+    .consent button#consent-accept {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .consent button:hover { border-color: var(--primary-light); }
+
+
     /* ---- Subtle global grid bg --------------------------------- */
     body::before {
       content: '';
@@ -1280,6 +1320,10 @@
           <span class="uk">Блог</span>
         </a>
         <a href="https://github.com/ceh13-community/rozoom" target="_blank" rel="noopener">GitHub</a>
+        <a href="/privacy.html">
+          <span class="en">Privacy</span>
+          <span class="uk">Приватність</span>
+        </a>
         <a href="https://github.com/ceh13-community/rozoom/blob/main/LICENSE" target="_blank" rel="noopener">
           <span class="en">License</span>
           <span class="uk">Ліцензія</span>
@@ -1292,6 +1336,19 @@
     </div>
   </div>
 </footer>
+
+<!-- consent banner: analytics stays off until the visitor chooses -->
+<div id="consent" class="consent" role="region" aria-label="Analytics consent" hidden>
+  <p>
+    <span class="en">We count page views with one privacy-friendly analytics tool. No advertising trackers, no profiles, and no cookies are set either way. Only your choice is stored, locally in this browser.</span>
+    <span class="uk">Ми рахуємо перегляди сторінок одним приватним аналітичним інструментом. Без рекламних трекерів, без профілів, і кукі не ставляться в жодному разі. Зберігається тільки твій вибір, локально в цьому браузері.</span>
+    <a href="/privacy.html"><span class="en">Privacy notice</span><span class="uk">Про приватність</span></a>
+  </p>
+  <div class="consent-actions">
+    <button type="button" id="consent-accept"><span class="en">Accept</span><span class="uk">Прийняти</span></button>
+    <button type="button" id="consent-decline"><span class="en">Decline</span><span class="uk">Відхилити</span></button>
+  </div>
+</div>
 
 <script>
   // --- i18n ---
@@ -1355,30 +1412,56 @@
       .catch(function() { /* keep releases/latest */ });
   })();
 
-  // --- analytics: PostHog, cookieless (memory persistence, no banner needed) ---
-  // Captures only pageview + download click; autocapture, session recording,
-  // and surveys are off. No cookies, no localStorage, nothing persists.
+  // --- analytics: PostHog, loaded only after the visitor accepts -----
+  // Cookieless even then: memory persistence, no person profiles, no
+  // autocapture, no session recording. Only the consent choice itself is
+  // stored, in localStorage, so the banner is not shown again.
   (function() {
-    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-    posthog.init('phc_pCedaLmaNeRdQz3jke8r5iwqvASxZT6CAazcvBoq7Grv', {
-      api_host: 'https://us.i.posthog.com',
-      persistence: 'memory',
-      person_profiles: 'never',
-      autocapture: false,
-      capture_pageleave: false,
-      disable_session_recording: true,
-      disable_surveys: true
-    });
+    var KEY = 'rozoom-consent';
 
-    var dl = document.getElementById('dl-primary');
-    if (dl) {
-      dl.addEventListener('click', function() {
-        posthog.capture('landing_download_click', {
-          href: dl.href,
-          lang: document.documentElement.getAttribute('data-lang') || 'en'
-        });
+    function loadAnalytics() {
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init('phc_pCedaLmaNeRdQz3jke8r5iwqvASxZT6CAazcvBoq7Grv', {
+        api_host: 'https://us.i.posthog.com',
+        persistence: 'memory',
+        person_profiles: 'never',
+        autocapture: false,
+        capture_pageleave: false,
+        disable_session_recording: true,
+        disable_surveys: true
       });
+
+      var dl = document.getElementById('dl-primary');
+      if (dl) {
+        dl.addEventListener('click', function() {
+          posthog.capture('landing_download_click', {
+            href: dl.href,
+            lang: document.documentElement.getAttribute('data-lang') || 'en'
+          });
+        });
+      }
     }
+
+    function stored() {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    }
+
+    var choice = stored();
+    if (choice === 'granted') { loadAnalytics(); return; }
+    if (choice === 'denied') { return; }
+
+    var box = document.getElementById('consent');
+    if (!box) { return; }
+    box.hidden = false;
+
+    function decide(value) {
+      try { localStorage.setItem(KEY, value); } catch (e) { /* session-only choice */ }
+      box.hidden = true;
+      if (value === 'granted') { loadAnalytics(); }
+    }
+
+    document.getElementById('consent-accept').addEventListener('click', function() { decide('granted'); });
+    document.getElementById('consent-decline').addEventListener('click', function() { decide('denied'); });
   })();
 </script>
 
