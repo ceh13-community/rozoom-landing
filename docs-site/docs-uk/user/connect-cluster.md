@@ -3,21 +3,62 @@ id: connect-cluster
 title: Підключення першого кластера
 sidebar_label: Підключення кластера
 sidebar_position: 2
-description: Підключіть наявний Kubernetes-кластер до ROZOOM через завантаження kubeconfig, вставку YAML або автовиявлення.
+description: Підключіть наявний Kubernetes-кластер до ROZOOM - з файлу kubeconfig або без нього, через шість способів автентифікації.
 ---
 
 # Підключення першого кластера
 
-Перший екран після встановлення — **Manage Kubernetes Clusters**. ROZOOM не створює кластери — лише підключається до вже наявних. Три способи:
+Перший екран після встановлення - **Manage Kubernetes Clusters**. ROZOOM не створює кластери - лише підключається до тих, що вже є.
 
-- Завантажити файл kubeconfig
-- Вставити YAML kubeconfig напряму
-- Дати ROZOOM просканувати стандартні місця (`~/.kube/config`, `$KUBECONFIG`, хмарні CLI) — знайдені збіги з'являються у списку **Detected kubeconfig files**
+Нічого не підключається автоматично. Кожен знайдений, вставлений чи введений вручну доступ потребує підтвердження кліком, перш ніж ROZOOM його використає.
 
-:::note
+## Уже є kubeconfig?
 
-Нічого не підключається автоматично. Кожен знайдений чи вставлений конфіг потребує підтвердження кліком, перш ніж ROZOOM його використає.
+Три шляхи:
 
-:::
+- **Завантажити файл kubeconfig**
+- **Вставити YAML** kubeconfig напряму
+- **Дати ROZOOM просканувати стандартні місця** (`~/.kube/config`, `$KUBECONFIG`, теки конфігів хмарних CLI) - знахідки зʼявляються в **Detected kubeconfig files**, готові до додавання по одній або всі разом.
 
-Одразу після підключення кластера ROZOOM сам запускає перевірку здоров'я — як виглядає результат і як призупинити перевірки, дивіться у розділі [Призупинення лінтера](/user/pausing-linter/).
+## Немає локального kubeconfig? Майстер підключення кластера
+
+Відкрийте згорнуту панель **Connect Cluster** - шість способів автентифікації без файлу kubeconfig на диску:
+
+| Спосіб | Для кого | Як працює |
+| --- | --- | --- |
+| **Cloud Provider** | AWS EKS, GKE, AKS, DigitalOcean | Імпорт в один клік через CLI провайдера, з виявленням по всіх регіонах. `aws`, `az`, `doctl` вбудовані в ROZOOM; `gcloud` для GKE треба встановити окремо. |
+| **Exec Plugin** | Команди, що вже використовують client-go credential plugin | Рекомендовано проєктом Kubernetes - повертає короткоживучий токен на кожен виклик API, нічого довготривалого на диск не пишеться. |
+| **Manual OIDC / SSO** | Azure AD, Okta, Keycloak, Google або будь-який OIDC-провайдер | Генерує kubeconfig з exec-плагіном `kubelogin`. |
+| **HashiCorp Vault** | Команди з динамічними обліковими даними для кластера | Автентифікація через token, Kubernetes, OIDC або AppRole у Vault. |
+| **X.509 Certificate** | Налаштування з mutual TLS | Клієнтський сертифікат + приватний ключ (base64 PEM). |
+| **Bearer Token** | Швидкий статичний доступ, токени CI | Статичний токен або токен ServiceAccount - без авторотації, ROZOOM попереджає про це одразу. |
+
+Обидві панелі, **Connect Cluster** і **Cloud Providers**, за замовчуванням згорнуті.
+
+## Що відбувається після підключення
+
+Щойно кластер додано, ROZOOM одразу запускає перевірку здоровʼя - див. [Призупинення лінтера](/user/pausing-linter/), як виглядають результати і як призупинити перевірки.
+
+```mermaid
+flowchart TD
+    A[Open Manage Kubernetes Clusters] --> B{Have a kubeconfig file?}
+    B -- Yes --> C[Upload / paste / auto-detect]
+    C --> D[Confirm the detected cluster]
+    B -- No --> E[Open Connect Cluster Wizard]
+    E --> F{Pick one of 6 methods}
+    F --> G[Cloud Provider]
+    F --> H[Exec Plugin]
+    F --> I[Manual OIDC / SSO]
+    F --> J[HashiCorp Vault]
+    F --> K[X.509 Certificate]
+    F --> L[Bearer Token]
+    G --> M[Confirm credentials]
+    H --> M
+    I --> M
+    J --> M
+    K --> M
+    L --> M
+    D --> N[Cluster added]
+    M --> N
+    N --> O[Health check runs automatically]
+```
