@@ -6,6 +6,8 @@ sidebar_position: 2
 description: Підключіть наявний Kubernetes-кластер до ROZOOM - з файлу kubeconfig або без нього, через шість способів автентифікації.
 ---
 
+import ConnectClusterFlowchart from '../../src/assets/connect-cluster-flowchart.svg';
+
 # Підключення першого кластера
 
 Перший екран після встановлення - **Manage Kubernetes Clusters**. ROZOOM не створює кластери - лише підключається до тих, що вже є.
@@ -39,26 +41,4 @@ description: Підключіть наявний Kubernetes-кластер до 
 
 Щойно кластер додано, ROZOOM одразу запускає перевірку здоровʼя - див. [Призупинення лінтера](/user/pausing-linter/), як виглядають результати і як призупинити перевірки.
 
-```mermaid
-flowchart TD
-    A[Open Manage Kubernetes Clusters] --> B{Have a kubeconfig file?}
-    B -- Yes --> C[Upload / paste / auto-detect]
-    C --> D[Confirm the detected cluster]
-    B -- No --> E[Open Connect Cluster Wizard]
-    E --> F{Pick one of 6 methods}
-    F --> G[Cloud Provider]
-    F --> H[Exec Plugin]
-    F --> I[Manual OIDC / SSO]
-    F --> J[HashiCorp Vault]
-    F --> K[X.509 Certificate]
-    F --> L[Bearer Token]
-    G --> M[Confirm credentials]
-    H --> M
-    I --> M
-    J --> M
-    K --> M
-    L --> M
-    D --> N[Cluster added]
-    M --> N
-    N --> O[Health check runs automatically]
-```
+<ConnectClusterFlowchart />

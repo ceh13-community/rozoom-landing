@@ -6,6 +6,8 @@ sidebar_position: 2
 description: Connect an existing Kubernetes cluster to ROZOOM - from a kubeconfig file, or without one, through six credential methods.
 ---
 
+import ConnectClusterFlowchart from '../../src/assets/connect-cluster-flowchart.svg';
+
 # Connect your first cluster
 
 The first screen after install is **Manage Kubernetes Clusters**. ROZOOM doesn't create clusters - it only connects to ones you already have.
@@ -39,26 +41,4 @@ Both the **Connect Cluster** and **Cloud Providers** panels are collapsed by def
 
 Once a cluster is added, ROZOOM runs a health check immediately - see [Pausing the linter](/user/pausing-linter/) for how results appear and how to pause checks.
 
-```mermaid
-flowchart TD
-    A[Open Manage Kubernetes Clusters] --> B{Have a kubeconfig file?}
-    B -- Yes --> C[Upload / paste / auto-detect]
-    C --> D[Confirm the detected cluster]
-    B -- No --> E[Open Connect Cluster Wizard]
-    E --> F{Pick one of 6 methods}
-    F --> G[Cloud Provider]
-    F --> H[Exec Plugin]
-    F --> I[Manual OIDC / SSO]
-    F --> J[HashiCorp Vault]
-    F --> K[X.509 Certificate]
-    F --> L[Bearer Token]
-    G --> M[Confirm credentials]
-    H --> M
-    I --> M
-    J --> M
-    K --> M
-    L --> M
-    D --> N[Cluster added]
-    M --> N
-    N --> O[Health check runs automatically]
-```
+<ConnectClusterFlowchart />
