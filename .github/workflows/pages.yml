@@ -68,6 +68,17 @@ jobs:
             exit 1
           fi
 
+      - name: Accuracy gate - no NUL bytes in built HTML
+        # react-dom 18 leaked zero bytes into non-ASCII pages; a page with NUL
+        # bytes is treated as binary by grep-based checks and fails them silently.
+        # LC_ALL=C plus -a is required: in a UTF-8 locale GNU grep skips the
+        # match on binary files, verified with grep 3.12.
+        run: |
+          if LC_ALL=C grep -rlaP '\x00' _site --include='*.html'; then
+            echo "NUL bytes found in built HTML" >&2
+            exit 1
+          fi
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
